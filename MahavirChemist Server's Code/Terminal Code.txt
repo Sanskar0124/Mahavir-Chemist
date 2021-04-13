@@ -1,0 +1,15 @@
+apt update
+apt install apache2
+ufw app info "Apache Full"
+ufw allow in "Apache Full"
+apt install python3-pip
+apt install libapache2-mod-wsgi-py3
+pip3 install virtualenv
+virtualenv djangomc
+source djangomc/bin/activate
+pip3 install django
+python manage.py collectstatic
+
+chmod 664 djangomc/db.sqlite3
+chown :www-data djangomc/db.sqlite3
+chown :www-data djangomc/
