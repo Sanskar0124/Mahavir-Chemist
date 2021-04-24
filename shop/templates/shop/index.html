@@ -30,6 +30,8 @@ background-color: blue;
 }
 .carousel-control-prev,
 .carousel-control-next{
+
+z-index: -4;
 top: auto;
 bottom: auto;
 padding-top: 222px;
@@ -49,12 +51,14 @@ padding-right: 0;
         <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
                 <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+                <!--Screens-->
                 {% for i in range %}
                 <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
                 {% endfor %}
             </ul>
             <div class="container carousel-inner no-padding">
                 <div class="carousel-item active">
+                <!--Products-->
                     {% for i in product %}
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <div class="card align-items-center" style="width: 18rem;">
@@ -63,6 +67,7 @@ padding-right: 0;
                                 <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
                                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
                                 <h6 class="card-title" >Price: <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+                                <!--Add To Cart Button-->
                                 <span id="divpr{{i.id}}" class="divpr">
                                     <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
                                 </span>
