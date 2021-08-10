@@ -8,7 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 from PayTm import Checksum
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+import json
 MERCHANT_KEY = 'kbzk1DSbJiv_O3p5'
+
+with open('config.json', 'r') as c:
+    conf = json.load(c) ["params"]
+local_server = True
 
 # Create your views here.
 def index(request):
@@ -20,7 +25,7 @@ def index(request):
         n = len(prod)
         nSlides = n//4 + ceil((n/4)-(n//4))
         allProds.append([prod, range(1, nSlides), nSlides])
-    params = {'allProds' : allProds}
+    params = {'allProds' : allProds, 'conf' : conf}
     return render(request, 'shop/index.html', params)
 
 def searchMatch(query, item):
@@ -76,17 +81,17 @@ def tracker(request):
                     response = json.dumps({"status":"success", "updates":updates, "itemsJson": order[0].items_json}, default=str)
                 return HttpResponse(response)
             else:
-                return HttpResponse('{"status":"No Item"}')
+                return HttpResponse('{"status":"No Item"}', conf)
         except Exception as e:
-            return HttpResponse('{"status":"Error"}')
+            return HttpResponse('{"status":"Error"}', conf)
 
-    return render(request, 'shop/tracker.html')
+    return render(request, 'shop/tracker.html', conf)
 
 def productView(request, myid):
     product = Product.objects.filter(id=myid)
     print(product[0].desc)
     # Fetch the product using the id
-    return render(request, 'shop/productView.html', {'product':product[0]})
+    return render(request, 'shop/productView.html', {'product':product[0]}, conf)
 
 def checkout(request):
     if request.method=='POST':
