@@ -11,10 +11,6 @@ from django.contrib.auth.models import User
 import json
 MERCHANT_KEY = 'kbzk1DSbJiv_O3p5'
 
-with open('config.json', 'r') as c:
-    conf = json.load(c) ["params"]
-local_server = True
-
 # Create your views here.
 def index(request):
     allProds = []
@@ -25,7 +21,7 @@ def index(request):
         n = len(prod)
         nSlides = n//4 + ceil((n/4)-(n//4))
         allProds.append([prod, range(1, nSlides), nSlides])
-    params = {'allProds' : allProds, 'conf' : conf}
+    params = {'allProds' : allProds}
     return render(request, 'shop/index.html', params)
 
 def searchMatch(query, item):
