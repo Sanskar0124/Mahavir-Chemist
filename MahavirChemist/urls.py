@@ -28,3 +28,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('', views.index)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = "Mahavir Chemist Admin"
+admin.site.index_title = "Welcome to Mahavir Chemist Admin Pannel"
+admin.site.site_title = "Mahavir Chemist Admin Pannel"
