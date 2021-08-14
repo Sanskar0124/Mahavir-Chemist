@@ -77,17 +77,17 @@ def tracker(request):
                     response = json.dumps({"status":"success", "updates":updates, "itemsJson": order[0].items_json}, default=str)
                 return HttpResponse(response)
             else:
-                return HttpResponse('{"status":"No Item"}', conf)
+                return HttpResponse('{"status":"No Item"}')
         except Exception as e:
-            return HttpResponse('{"status":"Error"}', conf)
+            return HttpResponse('{"status":"Error"}')
 
-    return render(request, 'shop/tracker.html', conf)
+    return render(request, 'shop/tracker.html')
 
 def productView(request, myid):
     product = Product.objects.filter(id=myid)
     print(product[0].desc)
     # Fetch the product using the id
-    return render(request, 'shop/productView.html', {'product':product[0]}, conf)
+    return render(request, 'shop/productView.html', {'product':product[0]})
 
 def checkout(request):
     if request.method=='POST':

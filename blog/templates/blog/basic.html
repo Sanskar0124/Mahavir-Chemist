@@ -13,6 +13,9 @@
 
   <title>MC-{% block title%} {% endblock title %}</title>
   <style>
+  #welcomUser{
+    color:white;
+  }
     {% block css %}
 
     {% endblock css %}
@@ -59,6 +62,31 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
 
+          <!-- Authentication -->
+      {% if user.is_authenticated %}
+      <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <span id="welcomUser">Welcome {{request.user}}<span>
+        <a href="/shop/logout/"><button type="button" class="btn btn-primary mx-2">
+        LogOut
+        </button></a>
+      </ul>
+      {% if user.is_superuser %}
+      <a href="/admin"><button type="button" class="btn btn-primary mx-2">
+      Admin Pannel
+      </button></a>
+      {% endif %}
+      {% else %}
+      <!-- Button to trigger Login modal -->
+      <button type="button" class="btn btn-primary mx-2" data-toggle="modal" data-target="#loginModal">
+        LogIn
+      </button>
+      <!-- Button to trigger SginUp modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+        SginUp
+      </button>
+      
+      {% endif %}
+
       <!--Cart Popover-->
       <button type="button" class="btn btn-secondary mx-2" id="popcart" data-container="body" data-toggle="popover"
         data-placement="bottom" data-html="true"
@@ -81,7 +109,7 @@
     crossorigin="anonymous"></script>
 
 
-  {% block js %} {% endblock %}
+  {% block js %} {% endblock js %}
 </body>
 
 </html>
