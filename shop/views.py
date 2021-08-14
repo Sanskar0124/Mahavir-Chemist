@@ -177,7 +177,7 @@ def handleSignup(request):
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
-        messages.success(request, "Your CoderProgramer account has been succesfully created now you can Login")
+        messages.success(request, "Your Mahavir Chemist account has been succesfully created, now you can Login")
         return redirect('ShopHome')
 
     else:
