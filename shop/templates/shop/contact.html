@@ -10,7 +10,7 @@
       {% if user.is_authenticated %}
         <div class="mb-3">
             <label for="name"  class="form-label">Name</label>
-            <input required type="text" class="form-control" id="name" value={{request.user.first_name}}{{request.user.last_name}} name='name' placeholder="Enter Your Name">
+            <input required type="text" class="form-control" id="name" value={{request.user.get_username}} name='name' placeholder="Enter Your Name">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Email address</label>
