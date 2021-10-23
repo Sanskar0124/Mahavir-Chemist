@@ -15,12 +15,16 @@ MERCHANT_KEY = 'kbzk1DSbJiv_O3p5'
 def index(request):
     allProds = []
     catprods = Product.objects.values('category', 'id')
+    # print(catprods)
     cats = {item['category'] for item in catprods}
+    # print(cats)
     for cat in cats:
         prod = Product.objects.filter(category=cat)
+        # print(prod)
         n = len(prod)
         nSlides = n//4 + ceil((n/4)-(n//4))
         allProds.append([prod, range(1, nSlides), nSlides])
+        print(allProds)
     params = {'allProds' : allProds}
     return render(request, 'shop/index.html', params)
 
@@ -66,7 +70,9 @@ def contact(request):
 def tracker(request):
     if request.method=='POST':
         OrderId = request.POST.get('OrderId','')
-        email = request.POST.get('email', '')
+        email = request.POST.get('email','')
+        print(OrderId)
+        print(email)
         try:
             order = Orders.objects.filter(order_id = OrderId, email = email)
             if len(order)>0:
@@ -85,7 +91,7 @@ def tracker(request):
 
 def productView(request, myid):
     product = Product.objects.filter(id=myid)
-    print(product[0].desc)
+    # print(product[0].desc)
     # Fetch the product using the id
     return render(request, 'shop/productView.html', {'product':product[0]})
 
@@ -105,44 +111,46 @@ def checkout(request):
         order.save()
         update = OrderUpdate(order_id=order.order_id, update_desc='The Order hs been placed')
         update.save()
-        thank = True
-        id = order.order_id
+        # thank = True
+        id = str(order.order_id)
+        params= {"msg": "Your order has been placed successfully. Your order id is : " +id}
+        return render(request, 'shop/index.html', params)
         # return render(request, 'shop/checkout.html', {'thank':thank, 'id':id})
         # Rquest paytm to transfer the amount to your account after payment by user
-        param_dict={
+        # param_dict={
 
-            'MID': 'WorldP64425807474247',
-            'ORDER_ID': str(order.order_id),
-            'TXN_AMOUNT': str(amount),
-            'CUST_ID': email,
-            'INDUSTRY_TYPE_ID': 'Retail',
-            'WEBSITE': 'WEBSTAGING',
-            'CHANNEL_ID': 'WEB',
-            'CALLBACK_URL':'http://127.0.0.1:8000/shop/handlerequest/',
+        #     'MID': 'WorldP64425807474247',
+        #     'ORDER_ID': str(order.order_id),
+        #     'TXN_AMOUNT': str(amount),
+        #     'CUST_ID': email,
+        #     'INDUSTRY_TYPE_ID': 'Retail',
+        #     'WEBSITE': 'WEBSTAGING',
+        #     'CHANNEL_ID': 'WEB',
+        #     'CALLBACK_URL':'http://127.0.0.1:8000/shop/handlerequest/',
 
-        }
-        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        return render(request, 'shop/paytm.html', {'param_dict':param_dict})
+        # }
+        # param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        # return render(request, 'shop/paytm.html', {'param_dict':param_dict})
     return render(request, 'shop/checkout.html')
 
-@csrf_exempt
-def handlerequest(request):
-    # Paytm will send you post request here
-    form = request.POST
-    # print(form)
-    response_dict = {}
-    for i in form.keys():
-        response_dict[i] = form[i]
-        if i == 'CHECKSUMHASH':
-            checksum = form[i] 
-    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+# @csrf_exempt
+# def handlerequest(request):
+#     # Paytm will send you post request here
+#     form = request.POST
+#     # print(form)
+#     response_dict = {}
+#     for i in form.keys():
+#         response_dict[i] = form[i]
+#         if i == 'CHECKSUMHASH':
+#             checksum = form[i] 
+#     verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
 
-    if verify:
-        if response_dict['RESPCODE'] == '01':
-            print('order succesfull')
-        else:
-            print('order was not succesfull because'+ response_dict['RESPMSG'])
-    return render(request, 'shop/paymentstatus.html', {'response': response_dict})
+#     if verify:
+#         if response_dict['RESPCODE'] == '01':
+#             print('order succesfull')
+#         else:
+#             print('order was not succesfull because'+ response_dict['RESPMSG'])
+#     return render(request, 'shop/paymentstatus.html', {'response': response_dict})
 
 
 # Authentication APIs

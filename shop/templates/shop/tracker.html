@@ -7,17 +7,16 @@
 <div class="container">
     <div class="col my-4">
         <h2>Enter your Order id and email address to track your order</h2>
-        <form method="POST" action="#" id="trackerForm">
+        <form method="post" action="/shop/tracker/" id="trackerForm">
             {% csrf_token%}
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="inputName">Name</label>
-                    <input required type="text" class="form-control" id="OrderID" name="OrderId" placeholder="Order ID">
+                    <label for="OrderID">Order ID</label>
+                    <input required type="text" class="form-control" id="OrderID" name="OrderId" placeholder="Enter Oreder Id">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input required type="email" class="form-control" id="email" name="email"
-                        placeholder="Enter Your Email">
+                    <label for="email">Email</label>
+                    <input required type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email Id">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Track Order</button>
@@ -64,48 +63,50 @@
             encode: true
         })
 
-            .done(function (data) {
-                $('#citems').empty();
-                data = JSON.parse(data);
-                if (data['status'] == 'success') {
-                    updates = data['updates'];
-                    for (i = 0; i < updates.length; i++) {
-                        let text = updates[i]['text'];
-                        let time = updates[i]['time'];
-                        mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        ${text}
-                                    </div>
-                                    <span class="badge bg-primary rounded-pill" style="color:white" >${time}</span>
-                                </li>`
-                        $('#items').append(mystr);
-                    }
+    .done(function (data) {
+        console.log(data)
+        
+        $('#citems').empty();
+        data = JSON.parse(data);
+        if (data['status'] == 'success') {
+            updates = data['updates'];
+            for (i = 0; i < updates.length; i++) {
+                let text = updates[i]['text'];
+                let time = updates[i]['time'];
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                ${text}
+                            </div>
+                            <span class="badge bg-primary rounded-pill" style="color:white" >${time}</span>
+                        </li>`
+                $('#items').append(mystr);
+            }
 
-                    // Fill in the Order details
-                    cart = JSON.parse(data['itemsJson']);
-                    for (item in cart) {
-                        let name = cart[item][1];
-                        let qty = cart[item][0];
-                        mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        ${name}
-                    </div>
-                    <span class="badge bg-primary rounded-pill" style="color:white" >${qty}</span>
-                </li>`
-                        $('#citems').append(mystr);
-                    }
-                } else {
-                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        Sorry! We are not able to fetch this Order id and email. Make sure to type correct order id and email.
-                    </div>
-                </li>`
-                    $('#items').append(mystr);
-                    $('#citems').append(mystr);
-                }
+            // Fill in the Order details
+            cart = JSON.parse(data['itemsJson']);
+            for (item in cart) {
+                let name = cart[item][1];
+                let qty = cart[item][0];
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                ${name}
+            </div>
+            <span class="badge bg-primary rounded-pill" style="color:white" >${qty}</span>
+        </li>`
+                $('#citems').append(mystr);
+            }
+        } else {
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                Sorry! We are not able to fetch this Order id and email. Make sure to type correct order id and email.
+            </div>
+        </li>`
+            $('#items').append(mystr);
+            $('#citems').append(mystr);
+        }
 
 
-            });
+    });
 
         event.preventDefault();
     });

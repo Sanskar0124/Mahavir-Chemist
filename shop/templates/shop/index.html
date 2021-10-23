@@ -99,6 +99,13 @@ padding-right: 0;
 
 {% block js %} 
 <script>
+// For messages
+{% if msg|length != 0 %}
+    alert('{{msg}}');
+    window.location.href = "/shop"
+{% endif %}
+
+
 // For Search Result
 {% if msg|length != 0 %}
     alert('{{msg}}');
@@ -118,9 +125,9 @@ padding-right: 0;
 
 // If the add to cart button is clicked, add or increment the item
   $('.divpr').on('click', 'button.cart', function(){
-    console.log('clicked');
+    //console.log('clicked');
     var idstr = this.id.toString();
-    console.log(idstr);
+    //console.log(idstr);
     if (cart[idstr] !=undefined){
       qty = cart[idstr][0] + 1;
     }
@@ -141,7 +148,7 @@ padding-right: 0;
 
 // Functions
   function updatePopover(cart){
-    console.log("We are inside updatePopover")
+    //console.log("We are inside updatePopover")
     var popstr = "";
     popstr = popstr + "<h5>Cart for your items in my shopping</h5> <div class='mx-2 my-2'> ";
     var i = 1;
@@ -151,7 +158,7 @@ padding-right: 0;
       i = i+1
     }
     popstr = popstr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id='checkout'>Checkout</button></a> <button class='btn btn-primary' onClick='clearCart()' id='clearCart'>Clear Cart</button> "
-    console.log(popstr)
+    //console.log(popstr)
     document.getElementById('popcart').setAttribute('data-content', popstr)
     $('#popcart').popover('show');
   }
@@ -175,7 +182,7 @@ padding-right: 0;
     localStorage.setItem('cart', JSON.stringify(cart));
     // Cart count
     document.getElementById('cart').innerHTML = sum;
-    console.log(cart)
+    //console.log(cart)
     updatePopover(cart)
   }
 
