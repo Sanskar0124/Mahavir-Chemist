@@ -11,18 +11,12 @@
             </h3>
 
             <article class="blog-post">
-                <h2 class="blog-post-title">{{post.head0}}</h2>
+                <h2 class="blog-post-title">{{post.head}}</h2>
                 <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
                 <div class="fb-like" data-href="http://127.0.0.1:8000/blog/blogpost//{{post.post_id}}" data-width="" data-layout="standard" data-action="like" data-size="large" data-share="true"></div>
 
-        
-                <p>{{post.chead0}}</p>
-
-                <h2>{{post.head1}}</h2>
-                <p>{{post.chead1}}</p>
-
-                <h2>{{post.head2}}</h2>
-                <p>{{post.chead2}}</p>
+                <div class = "content">{{post.content|safe}}</div>
+                
                 <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-numposts="5"></div>
             
             </article><!-- /.blog-post -->

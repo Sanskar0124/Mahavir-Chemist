@@ -13,12 +13,7 @@ class Blogpost(models.Model):
     title = models.CharField(max_length=50)
     status = models.CharField(max_length=15, choices=STATUS, default='Active')
     content = models.TextField(default="")
-    head0 = models.CharField(max_length=500, default="")
-    chead0 = models.CharField(max_length=5000, default="")
-    head1 = models.CharField(max_length=500, default="")
-    chead1 = models.CharField(max_length=5000, default="")
-    head2 = models.CharField(max_length=500, default="")
-    chead2 = models.CharField(max_length=5000, default="")
+    head = models.CharField(max_length=500, default="")
     pub_date = models.DateField()
     thumbnail = models.ImageField(upload_to="blog/images", default="")
 
