@@ -54,7 +54,7 @@
         // DashBoard Cards
         $("document").ready(()=>{
             title = String(document.title);
-            if (title.includes("Mahavir Chemist Dashboard | Mahavir Chemist Admin Pannel")) {
+            if (title.includes("Welcome to Mahavir Chemist Dashboard | Mahavir Chemist Admin Pannel")) {
             $.ajax({
                 url:"/dashboard/vmsMaster",
                 type:"GET"
@@ -72,8 +72,7 @@
 
         $("document").ready(()=>{
             title = String(document.title);
-            if (title.includes("Mahavir Chemist Dashboard | Mahavir Chemist Admin Pannel")) {
-                console.log("Heyy")
+            if (title.includes("Welcome to Mahavir Chemist Dashboard | Mahavir Chemist Admin Pannel")) {
             $.ajax({
                 url:"/dashboard/shopMaster",
                 type:"GET"
