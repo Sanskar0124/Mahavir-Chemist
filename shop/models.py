@@ -84,6 +84,9 @@ class Orders(models.Model):
                 "InActive",
                 )
 
+    def __str__(self):
+            return str(self.order_id)
+
 
 class OrderUpdate(models.Model):
     update_id = models.AutoField(primary_key=True)
