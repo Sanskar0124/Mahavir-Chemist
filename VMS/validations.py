@@ -32,6 +32,13 @@ def name(value):
             params={'value': value},
         )
 
+def fullName(value):
+    if value=="" or len(value) > 30:
+        raise ValidationError(
+            _('%(value)s is not a valid name, Please eneter your valid name.'),
+            params={'value': value},
+        )
+
 def phoneNumber(value):
     number = str(value)
     if len(number) == 0 or len(number) > 12 or len(number) < 10:

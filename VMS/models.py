@@ -2,8 +2,8 @@ from django.db import models
 from django.db.models.fields import AutoField, DateTimeField, TimeField
 from django.utils.html import format_html
 from datetime import date
-from .choices import DRIVING_TIME, DRIVER_STATUS, DRIVER_EXPERIENCE, OWNER_SHIP, VEHICLE_TYPE, FUEL_TYPE, PERMIT_TYPE, VEHICLE_STATUS, TRAVEL_STATUS
-from .validations import license, adharCard, name, panCard, phoneNumber, zipCode, name, ownerName, phoneNumber, policyNumber, pucNumber, rcNumber, vehicleNumber
+from .choices import DRIVING_TIME, DRIVER_STATUS, DRIVER_EXPERIENCE, OWNER_SHIP, VEHICLE_TYPE, FUEL_TYPE, PERMIT_TYPE, VEHICLE_STATUS, TRAVEL_STATUS, MARRATIAL
+from .validations import license, adharCard, name, panCard, phoneNumber, zipCode, name, fullName, ownerName, phoneNumber, policyNumber, pucNumber, rcNumber, vehicleNumber
 from django.utils.html import mark_safe
 from shop.models import Orders
 import datetime 
@@ -35,7 +35,7 @@ class DriverDoc(Base):
     adharCard_no = models.CharField(max_length=15, validators=[adharCard])
     panCard_img = models.ImageField(upload_to="driversDocs/images", default="")
     panCard_no = models.CharField(max_length=15, validators=[panCard])
-    marritial_status = models.CharField(max_length=20)
+    marritial_status = models.CharField(max_length=20, choices=MARRATIAL, default='Single')
     driver_image = models.ImageField(upload_to="drivers/images", default="")
 
 
@@ -47,7 +47,7 @@ class DriverDoc(Base):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "red",
-                "Need to reneve",
+                "Need to renew",
                 )
         if(intDate < 30):
             return format_html(
@@ -60,6 +60,12 @@ class DriverDoc(Base):
                 '<span style="color: {};">{}</span>',
                 "orange",
                 str(intDate) + " Days remaining",
+                )
+        else:
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "green",
+                "No need to worry",
                 )
     
     def license_status(self):
@@ -99,8 +105,8 @@ class Driver(Base):
     phone1 = models.IntegerField(default=0, validators=[phoneNumber])
     phone2 = models.IntegerField(default=0, validators=[phoneNumber])
     email = models.EmailField(max_length=150, default="")
-    branch = models.CharField(max_length=15, default="", validators=[name])
-    base_location = models.CharField(max_length=15, default="", validators=[name])
+    branch = models.CharField(max_length=15, default="", validators=[fullName])
+    base_location = models.CharField(max_length=15, default="", validators=[fullName])
     zip_code = models.IntegerField(default=0, validators=[zipCode])
     address = models.CharField(max_length=200)
     driving_time = models.CharField(max_length=20, choices=DRIVING_TIME, default='day')
@@ -108,8 +114,24 @@ class Driver(Base):
     experience = models.CharField(max_length=20, choices=DRIVER_EXPERIENCE, default='2 - 4')
     date_of_birth = models.DateField(default=datetime.date.today)
     salary = models.IntegerField(default=0)
-    documents = models.ForeignKey(DriverDoc, on_delete=models.CASCADE)
+    license_no = models.ForeignKey(DriverDoc, on_delete=models.CASCADE)
     note = models.ForeignKey(DriverNote, on_delete=models.CASCADE)
+
+    def Driver_status(self):
+        # print(self.status)
+        if(self.status == "Active"):
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "green",
+                "Active",
+                )
+        else:
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "red",
+                "InActive",
+                )    
+
     def __str__(self):
         return self.first_name +" "+ self.last_name + " - "+ self.status
 
@@ -117,7 +139,7 @@ class Driver(Base):
 
 class VehicleDoc(Base):
     id = models.AutoField
-    owner_name = models.CharField(max_length=15, default="", validators=[ownerName])
+    owner_name = models.CharField(max_length=25, default="", validators=[fullName])
     owner_phone = models.IntegerField(default=0, validators=[phoneNumber])
     rc_book = models.ImageField(upload_to="vehiclesDocs/images", default="")
     rc_number = models.CharField(max_length=15, default="", validators=[rcNumber])
@@ -125,10 +147,12 @@ class VehicleDoc(Base):
     permit = models.ImageField(upload_to="vehiclesDocs/images", default="")
 
     def __str__(self):
-        return self.owner_name
+        return self.rc_number
+
 
 class VehicleMaintainance(Base):
     id = models.AutoField
+    vehicle_number = models.CharField(max_length=30, default="", validators=[vehicleNumber])
     last_service = models.DateField()
     insurance_policy_no = models.CharField(max_length=12,default="", validators=[policyNumber])
     insurance_exp = models.DateField()
@@ -258,6 +282,10 @@ class VehicleMaintainance(Base):
                 str(remains) + " Days remaining",
                 )
 
+    
+    def __str__(self):
+        return str(self.vehicle_number)
+
 
 
 # Models For Vehicles
@@ -277,9 +305,8 @@ class Vehicle(Base):
     breadth = models.FloatField(default=0)
     height = models.FloatField(default=0)
     volume = models.FloatField(default=0)
-    documents = models.ForeignKey(VehicleDoc, on_delete=models.CASCADE)
-    maintainence = models.ForeignKey(VehicleMaintainance, on_delete=models.CASCADE)
-    number_plate = models.CharField(max_length=30, default="", validators=[vehicleNumber])
+    Rc_number = models.ForeignKey(VehicleDoc, on_delete=models.CASCADE)
+    number_plate = models.ForeignKey(VehicleMaintainance, on_delete=models.CASCADE)
     vehicle_image = models.ImageField(upload_to="vehicles/images", default="")
     def save(self, *args, **kwargs):
         message = "Your vehicle is ready to departure"
@@ -288,12 +315,27 @@ class Vehicle(Base):
         driverMessage.save() 
         super(Vehicle, self).save(*args, **kwargs)
 
+    def Vehicle_status(self):
+        # print(self.status)
+        if(self.status == "Active"):
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "green",
+                "Active",
+                )
+        else:
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "red",
+                "InActive",
+                )  
+
     @property            
     def Vehicles_Image(self):
         return mark_safe('<img src="{}" width="180" height="130" />'.format(self.vehicle_image.url))
 
     def __str__(self):
-        return self.number_plate + self.status
+        return self.model
 
 
 
@@ -316,16 +358,28 @@ class Routes(models.Model):
 
 class Travel(models.Model):
     id = models.AutoField
-    order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
-    routes = models.ForeignKey(Routes, on_delete=models.CASCADE)
-    location = models.CharField(max_length=15)
-    departure_time = models.CharField(max_length=15)
-    departure_loc = models.CharField(max_length=15)
     destination = models.CharField(max_length=15)
     estimated_time = models.CharField(max_length=15)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=30, choices=TRAVEL_STATUS, default='Ready to deliver')
+
+    def Travel_status(self):
+        # print(self.status)
+        if(self.status == "Active"):
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "green",
+                "Active",
+                )
+        else:
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "red",
+                "InActive",
+                )  
+
     def __str__(self):
         return self.departure_loc+" to " +self.destination

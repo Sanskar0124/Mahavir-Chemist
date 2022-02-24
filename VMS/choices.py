@@ -18,6 +18,11 @@ DRIVER_EXPERIENCE = (
     ( '6+','More than 6+ Years'),
 )
 
+MARRATIAL = (
+    ( 'Single', 'SINGLE'),
+    ( 'Married', 'MARRIED'),
+)
+
 
 # Choices For Vehicles
 OWNER_SHIP = (
