@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
     'blog.apps.BlogConfig',
-    'VMS.apps.VmsConfig'
+    'VMS.apps.VmsConfig',
+    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,12 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
-STATICFILES_DIRS = [
-    BASE_DIR / "MahavirChemist/static",
-    '/var/www/djangomc/MahavirChemist/static'
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "MahavirChemist/static",
+#     '/var/www/djangomc/MahavirChemist/static'
+# ]
 
 # Messages
 MESSAGE_TAGS = {
