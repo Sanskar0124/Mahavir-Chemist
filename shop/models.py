@@ -1,4 +1,14 @@
 from django.db import models
+from django.utils.html import format_html
+from django.utils.html import mark_safe
+
+
+# Choices
+STATUS = (
+    ('Active', 'ACTIVE'),
+    ('InActive', 'INACTIVE'),
+)
+
 
 # Create your models here.
 class Product(models.Model):
