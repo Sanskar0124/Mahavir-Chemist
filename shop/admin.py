@@ -3,7 +3,18 @@ from django.contrib import admin
 # Register your models here.
 from .models import Product, Contact, Orders, OrderUpdate
 
-admin.site.register(Product)
-admin.site.register(Contact)
-admin.site.register(Orders)
-admin.site.register(OrderUpdate)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("product_name", "category", "pub_date", "price", "product_status", "product_image")
+admin.site.register(Product, ProductAdmin)
+
+class OrderUpdateAdmin(admin.ModelAdmin):
+    list_display = ("order_id", "update_desc", "timestamp")
+admin.site.register(OrderUpdate, OrderUpdateAdmin)
+
+class OrdersAdmin(admin.ModelAdmin):
+    list_display = ("order_id", "items_json", "amount", "Status", "name", "city", "phone", "zip_code")
+admin.site.register(Orders, OrdersAdmin)
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ("msg_id", "name", "email", "phone")
+admin.site.register(Contact, ContactAdmin)
