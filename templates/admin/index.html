@@ -1,0 +1,253 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+{% load admin_menu %}
+
+{% block extrastyle %}
+{{ block.super }}
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'admin/css/dashboard.css' %}" /> -->
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="row mb-2">
+    <div class="col-sm-4">
+        <h2>{{title}}</h2>
+    </div>
+    <div class="col-sm-8">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> {% trans 'Home' %}</a></li>
+            {% for app in app_list %}
+            <li class="breadcrumb-item active">{{ app.name }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+{% endblock %}
+{% endif %}
+
+
+{% block content %}
+<div id="content-main" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-orange">
+        <div class="inner">
+          <h3 id="ActiveOrders">0</h3>
+
+          <p>Active Orders</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+        <a href="/admin/shop/orders/" id="travles" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-purple">
+        <div class="inner">
+          <h3 id="ActiveProducts">0<sup style="font-size: 20px">%</sup></h3>
+
+          <p>Active Products</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="/admin/shop/product/" id="vehicles"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3 id="DeliveredOrders">0<sup style="font-size: 20px">%</sup></h3>
+          <p>Delivered Orders</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="/admin/shop/orders/" id="vehicles"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3 id="ActiveBlogs">0<sup style="font-size: 20px">%</sup></h3>
+
+          <p>Blogs</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="/admin/blog/blogpost/" id="vehicles"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+  </div>
+
+
+
+  <!-- Vehicle ManagmentSystem -->
+  <div class="row mb-2">
+    <div class="col-sm-4">
+      <h2>Vehicle Managment System</h2>
+    </div>
+  </div>
+    <div class="row">
+           <!-- ./col -->
+           <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-pink">
+                <h4 class="mx-auto pt-2" style="width: 4em;"> Drivers</h4>
+              <div class="inner">
+                <div class="d-flex justify-content-around">
+                  <h3 id="ActiveDrivers">0</h3>
+                  <h3 id="LicenseExp">0</h3>
+                </div>
+                <div class="d-flex justify-content-around">
+                  <p>Available Drivers</p>
+                  <p>License Expire</p>
+                </div>
+
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="/admin/VMS/driver/" id="drivers"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-olive">
+              <div class="inner">
+                <h3 id="ActiveTravels">0</h3>
+                <p>Active Travels</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-speedometer"></i>
+              </div>
+              <a href="/admin/VMS/travel/" id="travles" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gray-dark">
+              <div class="inner">
+                <h3 id="ActiveVehicles">0<sup style="font-size: 20px">%</sup></h3>
+                <p>Available Vehicles</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="/admin/VMS/vehicle/" id="vehicles"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+      
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <h4 class="mx-auto pt-2" style="width: 10em;"> Vehicles Maintainance</h4>
+              <div class="inner">
+                <div class="vehmain d-flex justify-content-around">
+                  <h3 id="VehicleIns">0</h3>
+                  <h3 id="VehiclePuc">0</h3>
+                  <h3 id="VehicleService">0</h3>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p>Insurance</p>
+                  <p>Puc</p>
+                  <p>Servicing</p>
+                </div>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="/admin/VMS/vehiclemaintainance/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+
+
+
+    <div class="row">
+        {% block sidebar %}
+
+        <div class="card card-widget col-md-12">
+            <div class="card-header ">
+                <h2 class="card-title">{% trans 'Recent actions' %} / </h2>
+                <h3 class="card-title"> {% trans 'My actions' %}</h3>
+                <h3 class="card-title"><a href="{{ app.app_url }}" class="nav-link"
+                        title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
+                </h3>
+
+                <div class="card-tools pull-right">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% load log %}
+                        {% get_admin_log 10 as admin_log for_user user %}
+                        {% if not admin_log %}
+                        <p>{% trans 'None available' %}</p>
+                        {% else %}
+                        <div class="timeline">
+                            {% for entry in admin_log %}
+                            <div>
+                                <i
+                                    class="fas fa-{% if entry.is_addition %}plus bg-blue{% endif %}{% if entry.is_change %}edit bg-green{% endif %}{% if entry.is_deletion %}minus bg-red{% endif %} "></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fas fa-clock"></i> {{entry.action_time}}</span>
+
+                                    <div class="timeline-body">
+                                        <a href="#">{{entry.user}}</a>
+                                        {% if entry.is_addition %}added{% endif %}{% if entry.is_change %}edited
+                                        {% endif %}{% if entry.is_deletion %}deleted{% endif %}
+                                        {% if entry.is_deletion or not entry.get_admin_url %}
+                                        {{ entry.object_repr }}
+                                        {% else %}
+                                        <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                                        {% endif %}
+                                        <br />
+                                        {% if entry.content_type %}
+                                        <span class="mini quiet">{% filter capfirst %}
+                                            {{ entry.content_type }}{% endfilter %}</span>
+                                        {% else %}
+                                        <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endblock %}
+
+    </div>
+    {% endblock %}
+
+    

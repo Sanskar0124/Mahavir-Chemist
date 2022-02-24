@@ -1,0 +1,92 @@
+{% extends 'adminlte/base.html' %}
+{% load static i18n %}
+
+{% block extra_head %}
+{{ block.super }}
+
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" type="text/css"
+    href="{% block stylesheet_rtl %}{% static 'admin/css/rtl.css' %}{% endblock %}" />
+{% endif %}
+<link rel="stylesheet" type="text/css"
+    href="{% static 'admin/css/base.css' %}" />
+{% block extrastyle %}{% endblock %}
+{% block extrahead %}{% endblock %}
+{% block blockbots %}
+<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+{% endblock %}
+
+{% block nav_header %}
+{% include 'admin/lib/_main_header.html' %}
+{% endblock %}
+
+{% block nav_sidebar %}
+{% include 'admin/lib/_main_sidebar.html' %}
+{% endblock %}
+
+{% block content_header %}
+<section class="content-header">
+    <div class="container-fluid">
+        {% block breadcrumbs %}
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> {% trans 'Home' %}</a></li>
+            {% if title %}  {{ title }}{% endif %}
+        </ol>
+        {% endblock %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block content_block_wrap %}
+
+    {% block content %}
+        {% block object-tools %}{% endblock %}
+        {{ content }}
+        {% block sidebar %}{% endblock %}
+    {% endblock %}
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script> 
+        // DashBoard Cards
+        $("document").ready(()=>{
+            title = String(document.title);
+            if (title.includes("Mahavir Chemist Dashboard | Mahavir Chemist Admin Pannel")) {
+            $.ajax({
+                url:"/dashboard/vmsMaster",
+                type:"GET"
+            }).done((json)=>{
+                document.getElementById("ActiveTravels").innerHTML = json.data.active_travels
+                document.getElementById("ActiveVehicles").innerHTML = json.data.active_vehicles
+                document.getElementById("ActiveDrivers").innerHTML = json.data.active_drivers
+                document.getElementById("VehicleIns").innerHTML = json.data.insurance_exp
+                document.getElementById("VehiclePuc").innerHTML = json.data.puc_exp
+                document.getElementById("VehicleService").innerHTML = json.data.need_servicing
+                document.getElementById("LicenseExp").innerHTML = json.data.license_exp
+            })
+            }
+        })
+
+        $("document").ready(()=>{
+            title = String(document.title);
+            if (title.includes("Mahavir Chemist Dashboard | Mahavir Chemist Admin Pannel")) {
+                console.log("Heyy")
+            $.ajax({
+                url:"/dashboard/shopMaster",
+                type:"GET"
+            }).done((json)=>{
+                document.getElementById("ActiveOrders").innerHTML = json.data.active_orders
+                document.getElementById("ActiveProducts").innerHTML = json.data.active_products
+                document.getElementById("DeliveredOrders").innerHTML = json.data.active_deliveredOrder
+                document.getElementById("ActiveBlogs").innerHTML = json.data.active_blogs
+            })
+            }
+        })
+
+        
+
+    </script>
+{% endblock %}
