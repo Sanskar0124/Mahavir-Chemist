@@ -12,6 +12,7 @@ class Blogpost(models.Model):
     post_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
     status = models.CharField(max_length=15, choices=STATUS, default='Active')
+    content = models.TextField(default="")
     head0 = models.CharField(max_length=500, default="")
     chead0 = models.CharField(max_length=5000, default="")
     head1 = models.CharField(max_length=500, default="")
