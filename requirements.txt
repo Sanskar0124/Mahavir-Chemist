@@ -5,7 +5,7 @@ Django==3.2
 isort==5.8.0
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
-Pillow==8.2.0
+pillow==8.2.0
 pycryptodome==3.10.1
 pylint==2.7.4
 python-git==2018.2.1
