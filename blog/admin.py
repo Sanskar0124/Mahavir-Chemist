@@ -7,5 +7,5 @@ from .models import Blogpost
 class BlogpostAdmin(admin.ModelAdmin):
     list_display = ("post_id", "title", "blog_status", "pub_date", "blog_image")
     class Media:
-        js = ('tinyInject.js',)
+        js = ('tinyInjectBlogpost.js',)
 # admin.site.register(BlogpostAdmin)
