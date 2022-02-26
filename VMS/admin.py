@@ -4,7 +4,7 @@ from .models import Driver, DriverNote, DriverDoc, VehicleDoc,Vehicle, VehicleMa
 
 # Drivers Models
 class DriverAdmin(admin.ModelAdmin):
-    list_display = ("first_name","license_no", "last_name", "phone1", "email", "Driver_status", "branch", "salary","driving_time")
+    list_display = ("first_name", "last_name","license_no",  "phone1", "email", "Driver_status", "branch", "salary","driving_time")
 
 class DriverDocAdmin(admin.ModelAdmin):
     list_display = ("license_no", "adharCard_no", "license_exp_date", "license_exp_remaining", "license_status","drivers_image")
