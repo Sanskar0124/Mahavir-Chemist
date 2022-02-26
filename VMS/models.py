@@ -133,7 +133,7 @@ class Driver(Base):
                 )    
 
     def __str__(self):
-        return self.first_name +" "+ self.last_name + " - "+ self.status
+        return self.first_name +" "+ self.last_name
 
 
 
@@ -360,4 +360,4 @@ class Travel(models.Model):
                 )  
 
     def __str__(self):
-        return self.departure_loc+" to " +self.destination
+        return str(self.order_id)
