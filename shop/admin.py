@@ -15,7 +15,7 @@ class OrderUpdateAdmin(admin.ModelAdmin):
 admin.site.register(OrderUpdate, OrderUpdateAdmin)
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ("order_id", "items_json", "amount", "Status", "name", "city", "phone", "zip_code")
+    list_display = ("order_id", "email", "amount", "Status", "name", "city", "phone", "zip_code")
 admin.site.register(Orders, OrdersAdmin)
 
 class ContactAdmin(admin.ModelAdmin):
