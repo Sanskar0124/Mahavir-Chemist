@@ -7,16 +7,17 @@
 <div class="container">
     <div class="col my-4">
         <h2>Enter your Order id and email address to track your order</h2>
-        <form method="post" action="/shop/tracker/" id="trackerForm">
-            {% csrf_token%}
+        <form action="/shop/tracker/" method="POST">
             <div class="form-row">
+                {% csrf_token %}
                 <div class="form-group col-md-6">
                     <label for="OrderID">Order ID</label>
                     <input required type="text" class="form-control" id="OrderID" name="OrderId" placeholder="Enter Oreder Id">
                 </div>
                 <div class="form-group col-md-6">
+                    {% csrf_token %}
                     <label for="email">Email</label>
-                    <input required type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email Id">
+                    <input required type="email" class="form-control" id="email" name="Email" placeholder="Enter Your Email Id">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Track Order</button>
@@ -32,11 +33,15 @@
                 Enter Your order id and email and click Track Order to find details about your order!
             </ol>
         </div>
+
         <h2>Your Order Details</h2>
         <div class="my-4">
             <ol id="citems" class="list-group list-group-numbered">
             </ol>
         </div>
+
+        
+        <h3>Total Amount: <span id="totalprice">0.00</span></h3>
     </div>
 
 </div>
@@ -47,7 +52,10 @@
 {% block js %}
 
 <script>
-    $('#trackerForm').submit(function (event) {
+    var sum = 0;
+    var totalprice = 0;
+
+    $('form').submit(function (event) {
 
         $('#items').empty();
         var formData = {
@@ -87,14 +95,22 @@
             for (item in cart) {
                 let name = cart[item][1];
                 let qty = cart[item][0];
+                let itemprice = cart[item][2];
+                sum = sum + qty
+                totalprice = totalprice + qty * itemprice
                 mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-                ${name}
-            </div>
-            <span class="badge bg-primary rounded-pill" style="color:white" >${qty}</span>
-        </li>`
+                            <div class="ms-2 me-auto">
+                                ${name}
+                            </div>
+                            <span class="badge bg-primary rounded-pill" style="color:white" >${qty}</span>
+                        </li>`
                 $('#citems').append(mystr);
             }
+            
+        // console.log("total price"+totalprice) 
+        document.getElementById('cart').innerHTML = sum;
+        document.getElementById('totalprice').innerHTML = totalprice;
+
         } else {
             mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
@@ -107,7 +123,6 @@
 
 
     });
-
         event.preventDefault();
     });
 </script>
