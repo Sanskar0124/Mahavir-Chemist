@@ -169,34 +169,23 @@ class VehicleMaintainance(Base):
                 "red",
                 "Need to reneve",
                 )
-        if(intDate < 30):
+        if(intDate < 15):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "red",
                 str(intDate) + " Days remaining",
                 )
-        if(intDate < 60):
+        if(intDate < 30):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "orange",
                 str(intDate) + " Days remaining",
                 )
-        if(intDate > 60):
+        if(intDate < 45):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "green",
                 str(intDate) + " Days remaining",
-                )
-
-    def insurance_status(self):
-        datRem = self.insurance_exp - current_date
-        strDate = str(datRem).split()
-        intDate = int(strDate[0])
-        if(intDate < 0):
-            return format_html(
-                '<span style="color: {};">{}</span>',
-                "red",
-                "InActive",
                 )
         else:
             return format_html(
@@ -215,34 +204,23 @@ class VehicleMaintainance(Base):
                 "red",
                 "Need to reneve",
                 )
-        if(intDate < 30):
+        if(intDate < 15):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "red",
                 str(intDate) + " Days remaining",
                 )
-        if(intDate < 60):
+        if(intDate < 30):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "orange",
                 str(intDate) + " Days remaining",
                 )
-        if(intDate > 60):
+        if(intDate > 45):
             return format_html(
                 '<span style="color: {};">{}</span>',
                 "green",
                 str(intDate) + " Days remaining",
-                )
-
-    def puc_status(self):
-        datRem = self.puc_exp - current_date
-        strDate = str(datRem).split()
-        intDate = int(strDate[0])
-        if(intDate < 0):
-            return format_html(
-                '<span style="color: {};">{}</span>',
-                "red",
-                "InActive",
                 )
         else:
             return format_html(
