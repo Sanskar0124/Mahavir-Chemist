@@ -30,7 +30,7 @@ def index(request):
 
 def searchMatch(query, item):
     '''return true only if query matches the item'''
-    if query.lower() in item.desc.lower() or query in item.product_name.lower() or query in item.category:
+    if query.lower() in item.desc.lower() or query.lower() in item.product_name.lower() or query.lower() in item.category.lower() or query.lower() in item.subcategory.lower() :
         return True
     else:
         return False
