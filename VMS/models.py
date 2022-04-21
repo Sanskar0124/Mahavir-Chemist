@@ -125,6 +125,12 @@ class Driver(Base):
                 "green",
                 "Active",
                 )
+        elif(self.status == "Engage"):
+            return format_html(
+                '<span style="color: {};">{}</span>',
+                "yellow",
+                "Engage",
+                )
         else:
             return format_html(
                 '<span style="color: {};">{}</span>',
